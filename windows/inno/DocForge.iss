@@ -2,7 +2,7 @@
 ; The build-release.ps1 script must produce dist\DocForge first.
 #define MyAppName "DocForge"
 #define MyAppVersion "1.11.0"
-#define MyAppID "{c9bc4c6a-d1ab-4e12-8d34-c42ae7db01d9}"
+#define MyAppID "{{c9bc4c6a-d1ab-4e12-8d34-c42ae7db01d9}"
 [Setup]
 AppId={#MyAppID}
 AppName={#MyAppName}
