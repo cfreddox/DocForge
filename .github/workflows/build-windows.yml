@@ -1,0 +1,33 @@
+name: Build Windows Installer
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          architecture: x64
+      - name: Install Inno Setup compiler
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
+      - name: Build bundled EXE and installer
+        shell: pwsh
+        run: .\windows\build-release.ps1
+      - name: Test installer output exists
+        shell: pwsh
+        run: |
+          if (-not (Get-ChildItem -Path 'dist/installer' -Filter 'DocForge-Setup-*-win-x64.exe' -ErrorAction SilentlyContinue)) { throw 'Installer missing' }
+      - name: Upload installation binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: DocForge-Windows-Setup
+          path: dist/installer/*.exe
+          if-no-files-found: error

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docforge-local"
+version = "1.11.0"
+description = "Local document converter and PDF tools for Linux/Windows"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "DocForge contributors"}]
+
+[project.scripts]
+docforge = "docforge.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["docforge*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

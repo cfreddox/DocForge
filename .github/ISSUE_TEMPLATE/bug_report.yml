@@ -1,0 +1,31 @@
+name: Ошибка / Bug report
+description: Сообщить о проблеме установки, конвертации или интерфейса
+title: "[BUG] "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Версия DocForge
+      placeholder: "1.11.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Система
+      options: ["Windows 10 x64", "Windows 11 x64", "Ubuntu GNOME Wayland", "Linux X11", "Другое"]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Как воспроизвести
+      description: Опишите последовательность действий, ожидаемый и фактический результат.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Обезличенные журналы / скриншоты
+      description: Не прикладывайте приватные документы, пароли, токены или личные пути без редактирования.

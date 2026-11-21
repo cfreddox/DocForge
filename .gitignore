@@ -1,0 +1,65 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.tox/
+.nox/
+# Python runtimes, isolated environments
+.venv/
+venv/
+venv313/
+runtime/
+python313/
+# Installer downloads and built release outputs
+build/
+dist/
+output/
+releases/
+*.spec
+*.egg
+*.whl
+*.msi
+*.exe
+*.download
+DocForge-InstallCache/
+pandoc-unpack/
+# Local user state and rollback files
+logs/
+*.log
+*.tmp
+*.bak
+*.backup
+.staging-*/
+.update-*/
+.backup-*/
+code-backup-*/
+*.lock
+settings.json
+last-launch.log
+# Editor/OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+# Samples created by unit tests
+_test_output/
+
+# Build products, archives and local configuration
+*.zip
+*.tar.gz
+*.7z
+*.iso
+*.sqlite3
+.env
+.env.*
+!.env.example
+*.swp
+*.swo
+.vscode-test/

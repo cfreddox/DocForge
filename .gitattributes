@@ -1,0 +1,13 @@
+*.py text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.cmd text eol=crlf
+*.ps1 -text
+*.ico binary
+*.png binary
+*.jpg binary
+*.bmp binary
+*.zip binary

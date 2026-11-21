@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#132544"/><stop offset="1" stop-color="#090e20"/></linearGradient>
+<linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#83e1ff"/><stop offset="1" stop-color="#3f83fa"/></linearGradient>
+<linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dbb8ff"/><stop offset="1" stop-color="#895af4"/></linearGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<rect x="9" y="9" width="238" height="238" rx="62" fill="url(#bg)"/>
+<rect x="10" y="10" width="236" height="236" rx="61" fill="none" stroke="#a9d5ff" stroke-opacity=".35" stroke-width="3"/>
+<path d="M128 41 214 100 128 154 42 100Z" fill="#4ccaff" opacity=".27" filter="url(#glow)"/>
+<path d="M128 44 214 102 128 157 42 102Z" fill="url(#a)"/>
+<path d="M128 84 214 141 128 198 42 141Z" fill="url(#b)"/>
+<path d="M128 116 193 160 128 203 63 160Z" fill="#7d7ef9" opacity=".52"/>
+<path d="M128 72 181 107 128 143 75 107Z" fill="#f3ffff"/>
+<path d="M128 84 161 107 128 129 95 107Z" fill="#8bd6ff"/>
+</svg>

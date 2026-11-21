@@ -1,0 +1,15 @@
+name: Предложение / Feature request
+description: Предложить улучшение DocForge
+title: "[FEATURE] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Проблема и желаемое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Предлагаемое решение / примеры
