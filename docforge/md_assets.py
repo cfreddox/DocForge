@@ -113,7 +113,7 @@ def inspect_markdown(source: Path) -> MarkdownResources:
 def append_pdf_attachments(destination: Path, files: tuple[Path, ...]) -> None:
     if not files:
         return
-    import fitz
+    import pymupdf as fitz
     with fitz.open(destination) as doc:
         appendix = doc.new_page()
         appendix.insert_text((50, 60), 'DocForge - Attached files', fontsize=16)

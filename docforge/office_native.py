@@ -28,7 +28,7 @@ def preferred_available() -> bool:
 
 
 def _validate_pdf(destination: Path) -> None:
-    import fitz
+    import pymupdf as fitz
     if not destination.is_file() or destination.stat().st_size < 150:
         raise NativeOfficeError('Движок не создал PDF')
     with fitz.open(destination) as document:
@@ -49,7 +49,7 @@ def _office2pdf(source: Path, destination: Path) -> None:
 
 def _html_pdf(contents: str, destination: Path, *, resource_dir: Path | None = None,
               landscape: bool = False, css: str = '') -> None:
-    import fitz
+    import pymupdf as fitz
     width, height = (842, 595) if landscape else (595, 842)
     box = fitz.Rect(0, 0, width, height)
     body = fitz.Rect(39, 40, width - 39, height - 42)
@@ -101,7 +101,7 @@ def _fallback_docx(source: Path, destination: Path) -> None:
 
 def _fallback_pptx(source: Path, destination: Path) -> None:
     """Preserve slide dimensions, text and images in approximate shape geometry."""
-    import fitz
+    import pymupdf as fitz
     from pptx import Presentation
     from pptx.enum.shapes import MSO_SHAPE_TYPE
     from pptx.dml.color import RGBColor
@@ -196,7 +196,7 @@ def _fallback_xlsx(source: Path, destination: Path) -> None:
     Charts, spreadsheet recalculation and conditional formatting aren't
     reproduced in the fallback (never silently claim full Excel fidelity).
     """
-    import fitz
+    import pymupdf as fitz
     from openpyxl import load_workbook
     try:
         book = load_workbook(source, data_only=True, read_only=False)

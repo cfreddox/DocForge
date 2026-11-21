@@ -160,32 +160,40 @@ def run(command: list[str], *, cwd: Path | None = None, timeout: int = 240) -> N
 
 
 def _resource_fetcher(root: Path):
-    """WeasyPrint fetcher that never requests network or unrelated local files."""
-    from weasyprint.urls import URLFetcher
+    """Read only local document resources; never fetch remote URLs."""
+    from io import BytesIO
+    import base64
+    from urllib.parse import unquote_to_bytes
+
     permitted = root.resolve()
 
-    class LocalFetcher(URLFetcher):
-        def __init__(self):
-            super().__init__(allowed_protocols={"file", "data"})
-
-        def fetch(self, url: str, headers=None):
-            parts = urlparse(url)
-            if parts.scheme == "data":
-                if not url.startswith(("data:image/png;", "data:image/jpeg;", "data:image/gif;", "data:image/webp;")):
-                    raise ValueError("Разрешены только встроенные изображения")
-            elif parts.scheme == "file":
-                local = Path(unquote(parts.path)).resolve()
-                if not local.is_relative_to(permitted):
-                    raise ValueError("Ресурс находится вне папки документа")
+    def fetch(url: str):
+        parts = urlparse(url)
+        if parts.scheme == "data":
+            header, separator, payload = url.partition(",")
+            if not separator or not header.startswith((
+                "data:image/png;", "data:image/jpeg;", "data:image/gif;",
+                "data:image/webp;",
+            )):
+                raise ValueError("Разрешены только встроенные изображения")
+            if header.endswith(";base64"):
+                data = base64.b64decode(payload, validate=True)
             else:
-                raise ValueError("Загрузка внешних ресурсов из документов отключена")
-            return super().fetch(url, headers=headers)
+                data = unquote_to_bytes(payload)
+            if len(data) > 20 * 1024 * 1024:
+                raise ValueError("Изображение слишком большое")
+            return BytesIO(data)
+        if parts.scheme != "file":
+            raise ValueError("Загрузка внешних ресурсов из документов отключена")
+        if parts.netloc not in ("", "localhost"):
+            raise ValueError("Загрузка внешних ресурсов из документов отключена")
+        local = Path(unquote(parts.path)).resolve()
+        if not local.is_relative_to(permitted):
+            raise ValueError("Ресурс находится вне папки документа")
+        return local.open("rb")
 
-        def __call__(self, url: str):
-            # Also useful in standalone tests; WeasyPrint itself uses .fetch().
-            return self.fetch(url)
+    return fetch
 
-    return LocalFetcher()
 
 DOC_CSS = """
 @page { size: A4; margin: 21mm 19mm 20mm; @bottom-center { content: counter(page); font-size: 9pt; color: #64748b; } }
@@ -477,7 +485,7 @@ def image_convert(source: Path, target: str, destination: Path) -> None:
 
 
 def _pdf_pages(source: Path):
-    import fitz
+    import pymupdf as fitz
     try:
         return fitz.open(str(source))
     except Exception as exc:
@@ -487,7 +495,7 @@ def _pdf_pages(source: Path):
 def _ocr_page(page) -> str:
     if not shutil.which("tesseract"):
         return ""
-    import fitz
+    import pymupdf as fitz
     with tempfile.TemporaryDirectory(prefix="docforge-ocr-") as tmp:
         image_file = Path(tmp) / "ocr.png"
         page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False).save(str(image_file))
@@ -602,7 +610,7 @@ def pdf_to_md(source: Path, destination: Path) -> None:
                         content = doc.extract_image(xref)
                         extension = content["ext"].lower()
                         if extension not in {"png", "jpg", "jpeg"}:
-                            import fitz
+                            import pymupdf as fitz
                             pix = fitz.Pixmap(doc, xref)
                             if pix.n not in (1, 3):
                                 pix = fitz.Pixmap(fitz.csRGB, pix)
@@ -665,7 +673,7 @@ def pdf_to_docx(source: Path, destination: Path) -> None:
 
 
 def pdf_to_images(source: Path, output_dir: Path, target: str, dpi: int = 150) -> None:
-    import fitz
+    import pymupdf as fitz
     doc = _pdf_pages(source)
     try:
         if len(doc) == 0:

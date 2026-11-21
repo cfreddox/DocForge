@@ -12,7 +12,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, simpledialog, ttk
 
-import fitz
+import pymupdf as fitz
 from PIL import Image, ImageTk
 
 from .core import ConversionError, unique_path

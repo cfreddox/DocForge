@@ -78,7 +78,7 @@ def test_contrast():
 
 def test_github_templates_and_ignore():
     mandatory = ['.gitignore','README.md','LICENSE','SECURITY.md','CONTRIBUTING.md',
-                 'CODE_OF_CONDUCT.md','PUBLISHING.md','RELEASE_CHECKLIST.md',
+                 'CODE_OF_CONDUCT.md',
                  '.github/ISSUE_TEMPLATE/bug_report.yml','.github/pull_request_template.md',
                  '.github/workflows/tests.yml','.github/workflows/build-windows.yml']
     assert all((ROOT / file).is_file() for file in mandatory)

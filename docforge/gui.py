@@ -1156,7 +1156,7 @@ class MainWindow:
                                fill='#A5BDD8',font=('DejaVu Sans',11),justify='center')
             return
         try:
-            import fitz
+            import pymupdf as fitz
             from PIL import Image, ImageTk
             with fitz.open(pdf) as doc:
                 page=doc[0]

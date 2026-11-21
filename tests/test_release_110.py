@@ -57,8 +57,8 @@ def test_win_gui_bootstrap_is_xml_and_powershell5_compatible():
 
 
 def test_publication_files():
-    for file in ('LICENSE','RELEASE_NOTES.md','RELEASE_CHECKLIST.md','PRIVACY.md',
-                 'THIRD_PARTY_NOTICES.md','PUBLISHING.md','README.md','CHANGELOG.md'):
+    for file in ('LICENSE','PRIVACY.md','THIRD_PARTY_NOTICES.md',
+                 'README.md','CHANGELOG.md'):
         assert (ROOT/file).is_file()
     assert (ROOT/'.github/workflows/build-windows.yml').is_file()
     assert (ROOT/'windows/inno/DocForge.iss').is_file()

@@ -14,7 +14,7 @@ import os
 import shutil
 import subprocess
 
-import fitz
+import pymupdf as fitz
 from docx import Document
 from docx.shared import Pt, Inches
 
