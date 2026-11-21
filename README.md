@@ -21,7 +21,7 @@
 ## Установка Ubuntu / Debian
 
 ```bash
-unzip DocForge-Linux-1.11.0.zip
+unzip DocForge-Linux-1.11.4.zip
 cd DocForge
 chmod +x INSTALL-LINUX.sh
 ./INSTALL-LINUX.sh
