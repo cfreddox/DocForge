@@ -98,6 +98,7 @@ def test_qt_real_window_offscreen(tmp_path):
     script='''
 import os
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QImageReader
 from PySide6.QtWidgets import QApplication
 from docforge.liquid_qt import LiquidZone
 app=QApplication([])
@@ -105,7 +106,15 @@ w=LiquidZone()
 assert bool(w.windowFlags() & Qt.FramelessWindowHint)
 assert w.testAttribute(Qt.WA_TranslucentBackground)
 assert not bool(w.windowFlags() & Qt.WindowStaysOnTopHint)
-w.grab().save(os.environ["DOCFORGE_TEST_SCREENSHOT"])
+app.processEvents()
+image_path = os.environ["DOCFORGE_TEST_SCREENSHOT"]
+assert w.grab().save(image_path, "PNG")
+reader = QImageReader(image_path)
+assert reader.canRead(), reader.errorString()
+image = reader.read()
+assert not image.isNull(), reader.errorString()
+assert image.width() == w.width()
+assert image.height() == w.height()
 w.close()
 '''
     import os
@@ -115,4 +124,4 @@ w.close()
     env['DOCFORGE_TEST_SCREENSHOT']=str(tmp_path/'qt.png')
     run=subprocess.run([sys.executable,'-c',script],env=env,capture_output=True,text=True,timeout=20)
     assert run.returncode==0,run.stderr
-    assert (tmp_path/'qt.png').stat().st_size>1000
+    assert (tmp_path/'qt.png').read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
