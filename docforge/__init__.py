@@ -1,2 +1,2 @@
 """DocForge — local document conversion and PDF toolkit."""
-__version__ = "1.11.0"
+__version__ = "1.11.1"
