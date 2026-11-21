@@ -29,11 +29,7 @@ jobs:
         run: |
           if (-not (Get-ChildItem -Path 'dist/installer' -Filter 'DocForge-Setup-*-win-x64.exe' -ErrorAction SilentlyContinue)) { throw 'Installer missing' }
       - name: Upload installation binary
-<<<<<<< HEAD
         uses: actions/upload-artifact@v7
-=======
-        uses: actions/upload-artifact@v7
->>>>>>> 040ed4b (fix: correct Windows artifact upload step)
         with:
           name: DocForge-Windows-Setup
           path: dist/installer/*.exe
